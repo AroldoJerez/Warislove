@@ -25,8 +25,8 @@ async function getData() {
         <ul className="listnav">
 {data.map((player:any) => (
  <li key={player.Id}>
- <strong>Name:</strong> {player.Name}<br />
- <strong>ID:</strong> {player.Id}<br />
+ <span className="text-lx"><strong>ID</strong> {player.Id}<br /></span>
+ <span><strong>Name:</strong> {player.Name}<br /></span>
 </li>
 ))
 }
