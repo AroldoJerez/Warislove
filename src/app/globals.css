@@ -22,3 +22,16 @@
     text-wrap: balance;
   }
 }
+
+body{
+  background-color: rgb(12, 53, 94);
+}
+
+.listnav.li{
+  background-color: aqua;
+}
+
+li{
+  display: flex;
+  padding: 5px;
+}
