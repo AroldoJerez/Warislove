@@ -27,11 +27,16 @@ body{
   background-color: rgb(12, 53, 94);
 }
 
-.listnav.li{
-  background-color: aqua;
+#listnav li{
+  border: solid 1px black;
+  background-color: white;
 }
 
 li{
   display: flex;
   padding: 5px;
+}
+
+#listcenter li strong{
+margin-right: 5px;
 }

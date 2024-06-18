@@ -29,7 +29,7 @@ const sidebarItems = [
 const Sidebar = () => {
 
   return (
-    <div className="bg-white min-w-40 max-w-48 min-h-screen p-2">
+    <div className="bg-white w-48 min-h-screen p-2 fixed">
       <button className="btn" >
         <Image
       src={logo}
@@ -40,7 +40,7 @@ const Sidebar = () => {
       <aside className="sidebar" >
 
         <div className="sidebar__top">
-          <p className="sidebar__logo-name">The Brave Coders</p>
+          <p className="sidebar__logo-name text-lg font-bold">W A R I S L O V E</p>
         </div>
         <ul className="sidebar__list">
           {sidebarItems.map(({ name, href }) => {
