@@ -1,6 +1,7 @@
 export default function Dashboard({data}:any){
+  
     return(
-    <div className="ml-48 p-4 grow">
+    <div className="ml-48 p-4 grow flex justify-center">
     <ul id="listnav">
     {data.map((player:any) => (
      <li key={player.Id}>

@@ -1,8 +1,6 @@
 import { Metadata } from "next";
-import Sidebar from "../components/sidebar";
-import Dashboard from "../components/dashboard";
-
-
+import Sidebar from "../components/Sidebar";
+import Dashboard from "../components/Dashboard";
 
 async function getData() {
   const res = await fetch('https://gameinfo.albiononline.com/api/gameinfo/guilds/4ZOavdN2RyqcUGw-yG-v8w/members');
