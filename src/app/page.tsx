@@ -1,11 +1,9 @@
 import Image from "next/image";
 import logo from "../../public/logo.png"
-import AnimatedBackground from "./components/AnimateBackground";
 
 export default function Home() {
   return (
 <section className="flex min-h-screen items-center justify-center text-6xl font-serif">
-<AnimatedBackground></AnimatedBackground>
 <a className="text-white">WARISLOVE</a>
 <Image
       src={logo}
