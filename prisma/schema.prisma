@@ -9,10 +9,12 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement()) @map("_id")
+  usuario   String   @unique
   email     String   @unique
+  guild     String   
   password  String
   money     Money?
-  admin     Boolean?  @default(false)
+  admin     Boolean? @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

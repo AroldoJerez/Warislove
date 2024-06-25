@@ -1,26 +1,26 @@
+import { PrismaClient } from '@prisma/client';
 
-import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient();
 
-const prisma = new PrismaClient()
+export default async function PostDb() {
+    const allUsers = await prisma.user.findMany();
+    const allMoney = await prisma.money.findMany();
 
-export default async function PostDb(){
-
-    const allUsers = await prisma.user.findMany()
-    const allMoney = await prisma.money.findMany()
-
-    return(
-        <main>
-           <div className="bg-white">
-            {allUsers.map((usuarios) => {
-                 const userMoney = allMoney.find((money) => money.userId === usuarios.id);
-                return(
-                    <ul key={usuarios.id+"_ul"}>
-                        <li key={usuarios.id}>{usuarios.email}</li>
-                        <li>{userMoney && userMoney.amount !== 0?"$"+userMoney.amount:"Asiste a la actividades split"}</li>
-                    </ul>
-                )
-            })}
-           </div>
+    return (
+        <main className="flex justify-center items-center h-screen">
+            <div className="bg-white shadow-lg border-2 border-gray-800">
+                {allUsers.map((usuarios) => {
+                    const userMoney = allMoney.find((money) => money.userId === usuarios.id);
+                    return (
+                        <ul key={usuarios.id + "_ul"} className='flex'>
+                            <li className='w-28 border-2 p-2 text-center'>{usuarios.email}</li>
+                            <li className={`w-64 border-2 p-2 text-center text-white ${userMoney && userMoney.amount === 0 ? 'bg-red-500' : 'bg-green-700'}`}>
+                                {userMoney && userMoney.amount !== 0 ? "$" + userMoney.amount : "Asiste a la actividades split"}
+                            </li>
+                        </ul>
+                    )
+                })}
+            </div>
         </main>
     )
 }
