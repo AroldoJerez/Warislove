@@ -40,3 +40,7 @@ li{
 #listcenter li strong{
 margin-right: 5px;
 }
+
+#formsignup input{
+border: 1px solid gray;
+}
