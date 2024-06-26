@@ -1,4 +1,4 @@
-import Signup from "./register";
+import Signup from "./register/register";
 
 async function getData() {
     try {

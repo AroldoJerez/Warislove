@@ -7,7 +7,7 @@ const sidebarItems = [
     },
     {
         name: "registro",
-        href: "/sign",
+        href: "/auth",
         icon: ".",
     },
     {
