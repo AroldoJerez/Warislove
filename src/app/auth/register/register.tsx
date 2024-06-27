@@ -39,8 +39,7 @@ export default function Signup({ data }: SignupProps) {
     }
   }, [usernameTarget, data]);
 
-  /* const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-    console.log("antes");
+  const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
     if (isUserValid) {
       const response = await fetch("api/auth/register", {
         method: "POST",
@@ -60,9 +59,7 @@ export default function Signup({ data }: SignupProps) {
     } else {
       console.log("El usuario no se encuentra en warislove");
     }
-  }; */
-  console.log("despues");
-
+  };
   return (
     <>
       <NavBar />
