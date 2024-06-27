@@ -11,18 +11,17 @@ model User {
   id        Int      @id @default(autoincrement()) @map("_id")
   username  String   @unique
   email     String   @unique
-  guild     String   
+  guild     String
   password  String
-  money     Money?   
+  money     Money?
   admin     Boolean? @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-
 model Money {
-  id     Int    @id @default(autoincrement())  
-  amount Float  @default(0)
-  userId Int    @unique
-  user   User   @relation(fields: [userId], references: [id])
+  id     Int   @id @default(autoincrement())
+  amount Float @default(0)
+  userId Int   @unique
+  user   User  @relation(fields: [userId], references: [id])
 }

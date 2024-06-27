@@ -2,9 +2,10 @@
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { useEffect, useState } from "react";
 import NavBar from "../../components/NavBar";
+import { useRouter } from "next/navigation";
 
 interface SignupProps {
-  data: { Name: string }[];
+  data: { Name: string; GuildName: string }[];
 }
 
 interface FormInputs {
@@ -21,6 +22,8 @@ export default function Signup({ data }: SignupProps) {
     formState: { errors },
   } = useForm<FormInputs>();
 
+  const router = useRouter();
+
   const [isUserValid, setIsUserValid] = useState(false);
 
   const usernameTarget = watch("username");
@@ -36,27 +39,29 @@ export default function Signup({ data }: SignupProps) {
     }
   }, [usernameTarget, data]);
 
-  const onSubmit: SubmitHandler<FormInputs> = (async (formData) => {
+  /* const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
+    console.log("antes");
     if (isUserValid) {
-        const rest = await fetch("api/auth/register",{
-            method:"POST",
-            body:JSON.stringify({
-                username:formData.username,
-                email:formData.email,
-                guild:data[0].GuildName,
-                password:formData.password
-            }),
-            headers:   {
-                "Content-type":"aplication/json"
-            }
-        })
-        const RESjson = await rest.json();
-        console.log(RESjson)
+      const response = await fetch("api/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          guild: data[0].GuildName,
+          password: formData.password,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      if (response.ok) {
+        router.push("/auth/login");
+      }
     } else {
       console.log("El usuario no se encuentra en warislove");
-      console.log()
     }
-  });
+  }; */
+  console.log("despues");
 
   return (
     <>
@@ -87,7 +92,9 @@ export default function Signup({ data }: SignupProps) {
               placeholder="W A R I S L O V E"
               type="text"
               className={`mb-2 p-2 font-semibold text-center cursor-pointer ${
-                isUserValid ? "placeholder:text-green-600" : "placeholder:text-red-600"
+                isUserValid
+                  ? "placeholder:text-green-600"
+                  : "placeholder:text-red-600"
               }`}
               readOnly
             />
