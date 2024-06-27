@@ -43,7 +43,7 @@ export default function Signup({ data }: SignupProps) {
             body:JSON.stringify({
                 username:formData.username,
                 email:formData.email,
-                guild:data[0]["GuildName"],
+                guild:data[0].GuildName,
                 password:formData.password
             }),
             headers:   {
