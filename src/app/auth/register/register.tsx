@@ -1,12 +1,8 @@
 "use client";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavBar from "../../components/NavBar";
 import { useRouter } from "next/navigation";
-
-interface SignupProps {
-  data: { Name: string; GuildName: string }[];
-}
 
 interface FormInputs {
   username: string;
@@ -14,7 +10,7 @@ interface FormInputs {
   password: string;
 }
 
-export default function Signup(/*{ data }: SignupProps*/) {
+export default function Signup() {
   const {
     register,
     handleSubmit,
@@ -24,42 +20,37 @@ export default function Signup(/*{ data }: SignupProps*/) {
 
   const router = useRouter();
   const isUserValid = true;
-  /*
-  const [isUserValid, setIsUserValid] = useState(false);
 
-  const usernameTarget = watch("username");
+  const [messageErrors, setMessageErrors] = useState("");
 
-  useEffect(() => {
-    if (usernameTarget && Array.isArray(data)) {
-      const userExists = data.some(
-        (member) => member.Name.toLowerCase() === usernameTarget.toLowerCase()
-      );
-      setIsUserValid(userExists);
-    } else {
-      setIsUserValid(false);
-    }
-  }, [usernameTarget, data]);
-*/
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-    /*   if (isUserValid) {*/
-    const response = await fetch("api/auth/register", {
-      method: "POST",
-      body: JSON.stringify({
-        username: formData.username,
-        email: formData.email,
-        guild: "W A R I S L O V E" /*data[0].GuildName,*/,
-        password: formData.password,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    if (response.ok) {
-      router.push("/auth/login");
+    try {
+      const response = await fetch("api/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          guild: "W A R I S L O V E" /*data[0].GuildName,*/,
+          password: formData.password,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      const data = await response.json();
+
+      if (data.data === "") {
+        setMessageErrors(data.message || "Error desconocido");
+      } else {
+        router.push("/auth/login");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setMessageErrors(error.message || "Error desconocido");
+      } else {
+        setMessageErrors("Error desconocido");
+      }
     }
-    /* } else {
-      console.log("El usuario no se encuentra en warislove");
-    }*/
   };
   return (
     <>
@@ -130,15 +121,8 @@ export default function Signup(/*{ data }: SignupProps*/) {
               Registrar
             </button>
           </form>
-          {/* {usernameTarget && (
-            <div
-              className={`mt-2 text-center ${
-                isUserValid ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {isUserValid ? "Usuario válido" : "Usuario no encontrado"}
-            </div>
-          )} */}
+
+          <div className="mt-2 text-center text-red-600">{messageErrors}</div>
         </div>
       </main>
     </>

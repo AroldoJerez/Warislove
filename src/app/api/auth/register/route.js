@@ -23,7 +23,11 @@ export async function POST(request) {
     });
 
     if (existingUser) {
-      return NextResponse.json({ error: "Usuario ya existe" }, { status: 400 });
+      return NextResponse.json({
+        data: "",
+        message: "Usuario ya existe",
+        status: 200,
+      });
     }
     const existingUserByEmail = await db.user.findUnique({
       where: {
@@ -32,14 +36,15 @@ export async function POST(request) {
     });
 
     if (existingUserByEmail) {
-      return NextResponse.json(
-        { error: "El correo electrónico ya existe" },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        data: "",
+        message: "El correo ya existe",
+        status: 200,
+      });
     }
     const dataAlbion = await getData();
     if (dataAlbion.error) {
-      return NextResponse.json({ error: dataAlbion.error }, { status: 500 });
+      return NextResponse.json({ error: dataAlbion.error }, { status: 400 });
     }
 
     const userExistsInAlbion = dataAlbion.some(
@@ -47,10 +52,11 @@ export async function POST(request) {
     );
 
     if (!userExistsInAlbion) {
-      return NextResponse.json(
-        { error: "El usuario no existe en Albion Online" },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        data: "",
+        message: "No eres parte del gremio",
+        status: 200,
+      });
     }
     const hashedPass = await bcrypt.hash(data.password, 10);
     const newUser = await db.user.create({
@@ -68,15 +74,16 @@ export async function POST(request) {
       },
     });
     const { password: _, ...user } = newUser;
-    return NextResponse.json(user);
+    return NextResponse.json({
+      data: user,
+      message: "Registro exitoso",
+      status: 201,
+    });
   } catch (error) {
-    return NextResponse.json(
-      {
-        message: error.message,
-      },
-      {
-        status: 500,
-      }
-    );
+    return NextResponse.json({
+      data: null,
+      message: error.message || "Error desconocido",
+      status: 500,
+    });
   }
 }

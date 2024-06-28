@@ -25,3 +25,9 @@ model Money {
   userId Int   @unique
   user   User  @relation(fields: [userId], references: [id])
 }
+
+model GuildData {
+  id      Int @id @default(autoincrement())
+  nameGuild   String
+  idGuild Int
+}
