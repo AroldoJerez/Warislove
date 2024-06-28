@@ -27,7 +27,9 @@ model Money {
 }
 
 model GuildData {
-  id      Int @id @default(autoincrement())
-  nameGuild   String
-  idGuild Int
+  id          Int @id @default(autoincrement())
+  nameGuild   String @unique
+  idGuild     String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

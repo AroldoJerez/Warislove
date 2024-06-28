@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import db from "@/libs/db";
+import prisma from "@/libs/db";
 import bcrypt from "bcrypt";
 
 async function getData() {
@@ -16,7 +16,7 @@ async function getData() {
 export async function POST(request) {
   try {
     const data = await request.json();
-    const existingUser = await db.user.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: {
         username: data.username, // Puedes usar `username` o `id` en lugar de `email` según tus necesidades
       },
@@ -29,7 +29,7 @@ export async function POST(request) {
         status: 200,
       });
     }
-    const existingUserByEmail = await db.user.findUnique({
+    const existingUserByEmail = await prisma.user.findUnique({
       where: {
         email: data.email,
       },
@@ -59,7 +59,7 @@ export async function POST(request) {
       });
     }
     const hashedPass = await bcrypt.hash(data.password, 10);
-    const newUser = await db.user.create({
+    const newUser = await prisma.user.create({
       data: {
         username: data.username,
         guild: data.guild,
@@ -67,7 +67,7 @@ export async function POST(request) {
         password: hashedPass,
       },
     });
-    await db.money.create({
+    await prisma.money.create({
       data: {
         amount: 0,
         userId: newUser.id,

@@ -1,26 +1,28 @@
-import { PrismaClient } from '@prisma/client';
+import { Metadata } from "next";
+import Sidebar from "../components/Sidebar";
+import Dashboard from "../components/Dashboard";
 
-const prisma = new PrismaClient();
+async function getData() {
+  try {
+    const res = await fetch(
+      "https://gameinfo.albiononline.com/api/gameinfo/guilds/4ZOavdN2RyqcUGw-yG-v8w/members"
+    );
+    return res.json();
+  } catch (error) {
+    return { error: "Failed to fetch data" };
+  }
+}
+export const metadata: Metadata = {
+  title: "Informacion del gremio",
+  description: "Generado gracias a MELEVENGO",
+};
 
-export default async function PostDb() {
-    const allUsers = await prisma.user.findMany();
-    const allMoney = await prisma.money.findMany();
-
-    return (
-        <main className="flex justify-center items-center h-screen">
-            <div className="bg-white shadow-lg border-2 border-gray-800">
-                {allUsers.map((usuarios) => {
-                    const userMoney = allMoney.find((money) => money.userId === usuarios.id);
-                    return (
-                        <ul key={usuarios.id + "_ul"} className='flex'>
-                            <li className='w-28 border-2 p-2 text-center'>{usuarios.email}</li>
-                            <li className={`w-64 border-2 p-2 text-center text-white ${userMoney && userMoney.amount === 0 ? 'bg-red-500' : 'bg-green-700'}`}>
-                                {userMoney && userMoney.amount !== 0 ? "$" + userMoney.amount : "Asiste a la actividades split"}
-                            </li>
-                        </ul>
-                    )
-                })}
-            </div>
-        </main>
-    )
+export default async function DataGuild() {
+  const data = await getData();
+  return (
+    <main className="flex row-auto max-h-screen">
+      <Sidebar></Sidebar>
+      <Dashboard data={data}></Dashboard>
+    </main>
+  );
 }

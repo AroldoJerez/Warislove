@@ -1,6 +1,6 @@
 "use client";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "../../components/NavBar";
 import { useRouter } from "next/navigation";
 
@@ -22,6 +22,25 @@ export default function Signup() {
   const isUserValid = true;
 
   const [messageErrors, setMessageErrors] = useState("");
+  const [guildName, setGuildName] = useState<string>(""); // Estado para almacenar el nombre del gremio
+
+  useEffect(() => {
+    async function fetchGuildData() {
+      try {
+        const response = await fetch("api/dataGuild"); // Endpoint para obtener los datos del gremio
+        const data = await response.json();
+        if (data.data) {
+          setGuildName(data.data.nameGuild); // Asignar el nombre del gremio desde la respuesta del servidor
+        }
+      } catch (error) {
+        console.error("Error al obtener datos del gremio:", error);
+        setMessageErrors(
+          "Error al obtener datos del gremio. Por favor, intente nuevamente."
+        );
+      }
+    }
+    fetchGuildData();
+  }, []);
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
     try {
@@ -30,7 +49,7 @@ export default function Signup() {
         body: JSON.stringify({
           username: formData.username,
           email: formData.email,
-          guild: "W A R I S L O V E" /*data[0].GuildName,*/,
+          guild: guildName,
           password: formData.password,
         }),
         headers: {
@@ -78,7 +97,7 @@ export default function Signup() {
               className="mb-2 p-2"
             />
             <input
-              placeholder="W A R I S L O V E"
+              placeholder={guildName}
               type="text"
               className={`mb-2 p-2 font-semibold text-center cursor-pointer ${
                 isUserValid
