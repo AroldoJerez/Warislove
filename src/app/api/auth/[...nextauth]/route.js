@@ -35,11 +35,7 @@ export const authOptions = {
 
         if (!matchPassword) throw new Error("Wrong password");
 
-        return {
-          id: userFound.id,
-          name: userFound.username,
-          email: userFound.email,
-        };
+        return null;
       },
     }),
   ],
