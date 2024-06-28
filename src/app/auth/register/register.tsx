@@ -14,7 +14,7 @@ interface FormInputs {
   password: string;
 }
 
-export default function Signup({ data }: SignupProps) {
+export default function Signup(/*{ data }: SignupProps*/) {
   const {
     register,
     handleSubmit,
@@ -23,7 +23,8 @@ export default function Signup({ data }: SignupProps) {
   } = useForm<FormInputs>();
 
   const router = useRouter();
-
+  const isUserValid = true;
+  /*
   const [isUserValid, setIsUserValid] = useState(false);
 
   const usernameTarget = watch("username");
@@ -38,27 +39,27 @@ export default function Signup({ data }: SignupProps) {
       setIsUserValid(false);
     }
   }, [usernameTarget, data]);
-
+*/
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-    if (isUserValid) {
-      const response = await fetch("api/auth/register", {
-        method: "POST",
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          guild: data[0].GuildName,
-          password: formData.password,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
-      if (response.ok) {
-        router.push("/auth/login");
-      }
-    } else {
-      console.log("El usuario no se encuentra en warislove");
+    /*   if (isUserValid) {*/
+    const response = await fetch("api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+        guild: "W A R I S L O V E" /*data[0].GuildName,*/,
+        password: formData.password,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    if (response.ok) {
+      router.push("/auth/login");
     }
+    /* } else {
+      console.log("El usuario no se encuentra en warislove");
+    }*/
   };
   return (
     <>
@@ -129,7 +130,7 @@ export default function Signup({ data }: SignupProps) {
               Registrar
             </button>
           </form>
-          {usernameTarget && (
+          {/* {usernameTarget && (
             <div
               className={`mt-2 text-center ${
                 isUserValid ? "text-green-600" : "text-red-600"
@@ -137,7 +138,7 @@ export default function Signup({ data }: SignupProps) {
             >
               {isUserValid ? "Usuario válido" : "Usuario no encontrado"}
             </div>
-          )}
+          )} */}
         </div>
       </main>
     </>

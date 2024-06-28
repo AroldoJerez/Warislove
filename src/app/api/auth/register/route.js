@@ -2,10 +2,20 @@ import { NextResponse } from "next/server";
 import db from "@/libs/db";
 import bcrypt from "bcrypt";
 
+async function getData() {
+  try {
+    const res = await fetch(
+      "https://gameinfo.albiononline.com/api/gameinfo/guilds/4ZOavdN2RyqcUGw-yG-v8w/members"
+    );
+    return res.json();
+  } catch (error) {
+    return { error: "Failed to fetch data" };
+  }
+}
+
 export async function POST(request) {
   try {
     const data = await request.json();
-
     const existingUser = await db.user.findUnique({
       where: {
         username: data.username, // Puedes usar `username` o `id` en lugar de `email` según tus necesidades
@@ -24,6 +34,21 @@ export async function POST(request) {
     if (existingUserByEmail) {
       return NextResponse.json(
         { error: "El correo electrónico ya existe" },
+        { status: 400 }
+      );
+    }
+    const dataAlbion = await getData();
+    if (dataAlbion.error) {
+      return NextResponse.json({ error: dataAlbion.error }, { status: 500 });
+    }
+
+    const userExistsInAlbion = dataAlbion.some(
+      (member) => member.Name.toLowerCase() === data.username.toLowerCase()
+    );
+
+    if (!userExistsInAlbion) {
+      return NextResponse.json(
+        { error: "El usuario no existe en Albion Online" },
         { status: 400 }
       );
     }
