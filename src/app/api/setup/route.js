@@ -1,31 +1,40 @@
 import { NextResponse } from "next/server";
 import db from "@/libs/db";
 
+async function getDataGuild() {
+  try {
+    const res = await fetch(
+      "https://gameinfo.albiononline.com/api/gameinfo/guilds/" + data.guildId
+    );
+    return res.json();
+  } catch (error) {
+    return { error: "Failed to fetch data" };
+  }
+}
+
 export async function POST(request) {
   try {
     const data = await request.json();
-
-
-    const guildExistingAlbion = dataAlbion.some(
-      (member) => member.Name.toLowerCase() === data.username.toLowerCase()
+    console.log(data);
+   /*  const dataAlbionGuild = await getDataGuild();
+    const guildExistingAlbion = dataAlbionGuild.some(
+      (member) => member.Id.toLowerCase() === data.idGuild.toLowerCase()
     );
 
     if (!guildExistingAlbion) {
-      return NextResponse.json(
-        { error: "Tu gremio no existe" },
-        { status: 400 }
-      );
-    }
-    const newUser = await db.user.create({
+      return NextResponse.json({
+        data: "",
+        message: "Tu gremio no existe",
+        status: 200,
+      });
+    }*/
+    const newDataGuild = await db.DataGuild.create({
       data: {
-        username: data.username,
-        guild: data.guild,
-        email: data.email,
-        password: hashedPass,
+        nameGuild: data.nameGuild,
+        idGuild: data.idGuild,
       },
     });
-    const { password: _, ...user } = newUser;
-    return NextResponse.json(user);
+    return NextResponse.json(newDataGuild);
   } catch (error) {
     return NextResponse.json(
       {
