@@ -136,7 +136,14 @@ export default function Signup() {
               })}
               className="mb-2 p-2"
             />
-            <button type="submit" className="pt-2 p-2 bg-blue-500 text-white">
+            <button
+              type="submit"
+              className={`pt-2 p-2 bg-blue-500 text-white  ${
+                !messageErrors
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-red-600 hover:bg-red-700"
+              }`}
+            >
               Registrar
             </button>
           </form>

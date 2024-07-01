@@ -8,7 +8,7 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        usuario: {
+        username: {
           label: "Usuario",
           type: "text",
           placeholder: "Ingrese usuario",
@@ -20,11 +20,11 @@ export const authOptions = {
 
         const userFound = await prisma.user.findUnique({
           where: {
-            username: credentials.usuario,
+            username: credentials.username,
           },
         });
 
-        if (!userFound) throw new Error("No user found");
+        if (!userFound) throw new Error("Usuario o contraseña incorrecto");
 
         console.log(userFound);
 
@@ -33,9 +33,13 @@ export const authOptions = {
           userFound.password
         );
 
-        if (!matchPassword) throw new Error("Wrong password");
+        if (!matchPassword) throw new Error("Usuario o contraseña incorrecto");
 
-        return null;
+        return {
+          id: userFound.id,
+          name: userFound.username,
+          email: userFound.email,
+        };
       },
     }),
   ],
