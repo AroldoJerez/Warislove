@@ -38,6 +38,7 @@ export default function Home() {
           width={500}
           height={500}
           alt="Picture of the author"
+          priority={true}
         />
       </section>
     </>

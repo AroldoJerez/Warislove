@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Sidebar from "../components/Sidebar";
-import Dashboard from "../components/Dashboard";
+import DashboardTable from "../components/Dashboard";
 
 async function getData() {
   try {
@@ -22,7 +22,7 @@ export default async function DataGuild() {
   return (
     <main className="flex row-auto max-h-screen">
       <Sidebar></Sidebar>
-      <Dashboard data={data}></Dashboard>
+      <DashboardTable data={data}></DashboardTable>
     </main>
   );
 }

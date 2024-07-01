@@ -19,7 +19,6 @@ export default function Signup() {
   } = useForm<FormInputs>();
 
   const router = useRouter();
-  const isUserValid = true;
 
   const [messageErrors, setMessageErrors] = useState("");
   const [guildName, setGuildName] = useState<string>(""); // Estado para almacenar el nombre del gremio
@@ -99,11 +98,7 @@ export default function Signup() {
             <input
               placeholder={guildName}
               type="text"
-              className={`mb-2 p-2 font-semibold text-center cursor-pointer ${
-                isUserValid
-                  ? "placeholder:text-green-600"
-                  : "placeholder:text-red-600"
-              }`}
+              className="mb-2 p-2 font-semibold text-center cursor-pointer placeholder:text-green-600"
               readOnly
             />
             {errors.email && (

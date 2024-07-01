@@ -4,6 +4,7 @@ import Link from "next/link";
 import logo from "../../../public/logo.png";
 import sidebarItems from "@/utils/sidebaritems";
 import { useState, useEffect } from "react";
+import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
   const [messageErrors, setMessageErrors] = useState("");
@@ -52,6 +53,11 @@ const Sidebar = () => {
               </li>
             );
           })}
+        </ul>
+        <ul>
+          <button className="sidebar__link" onClick={() => signOut()}>
+            Cerrar session
+          </button>
         </ul>
       </aside>
     </div>

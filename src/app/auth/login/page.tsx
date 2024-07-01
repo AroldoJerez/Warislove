@@ -3,7 +3,7 @@ import NavBar from "@/app/components/NavBar";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 export default function LoginAuth() {
   const {
@@ -22,9 +22,10 @@ export default function LoginAuth() {
       redirect: false,
     });
     if (res?.error) {
-      setMessageErrors(res?.error || "Contacte con administrador");
+      setMessageErrors(res.error);
     } else {
       router.push("/dashboard");
+      router.refresh();
     }
   });
 

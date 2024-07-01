@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 
 const prisma = new PrismaClient();
 
-export default async function TableData() {
+export default async function Dashboard() {
   const allUsers = await prisma.user.findMany();
   const allMoney = await prisma.money.findMany();
 
