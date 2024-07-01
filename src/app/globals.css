@@ -16,31 +16,41 @@
   }
 }
 
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
 
-body{
+body {
   background-color: rgb(12, 53, 94);
 }
 
-#listnav li{
+#listnav li {
   border: solid 1px black;
   background-color: white;
 }
 
-li{
+li {
   display: flex;
   padding: 5px;
 }
 
-#listcenter li strong{
-margin-right: 5px;
+#listcenter li strong {
+  margin-right: 5px;
 }
 
-#formsignup input{
-border: 1px solid gray;
+#formsignup input {
+  border: 1px solid gray;
+}
+
+.sidebar__item {
+  min-width: 90px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar__item:hover {
+  background-color: #bdbdbd1c;
+  box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.139);
 }

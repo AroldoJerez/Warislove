@@ -1,11 +1,25 @@
+"use client";
 import sidebarItems from "@/utils/sidebaritems";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../../public/logo.png";
+import { useSession, signOut } from "next-auth/react"; // Importar useSession y signOut desde next-auth/react
+import { useRouter } from "next/navigation";
 
 export default function NavBar() {
+  const { data: session } = useSession(); // Obtener la sesión del usuario
+  const router = useRouter();
+
+  const handleSign = () => {
+    if (session) {
+      signOut(); // Cerrar sesión si hay una sesión activa
+    } else {
+      router.push("/auth/login"); // Aquí puedes manejar la lógica para iniciar sesión
+    }
+  };
+
   return (
-    <nav className="bg-white w-full flex items-center fixed">
+    <nav className="bg-white w-full h-20 flex items-center justify-between fixed pr-10">
       <button className="btn p-2">
         <Image
           src={logo}
@@ -15,16 +29,19 @@ export default function NavBar() {
           priority={true}
         />
       </button>
-      <ul className="flex">
+      <ul className="flex gap-4 h-20">
         {sidebarItems.map(({ name, href }) => {
           return (
-            <li className="sidebar__item" key={name}>
+            <li className="sidebar__item justify-center" key={name}>
               <Link className="sidebar__link" href={href}>
                 <span className="sidebar__name">{name}</span>
               </Link>
             </li>
           );
         })}
+        <button className="bottom-4" onClick={handleSign}>
+          {session ? "Cerrar sesión" : "Iniciar sesión"}
+        </button>
       </ul>
     </nav>
   );

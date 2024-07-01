@@ -1,23 +1,18 @@
 // data/sidebarItems.js
 const sidebarItems = [
   {
-    name: "Home",
+    name: "Inicio",
     href: "/",
     icon: ".",
   },
   {
-    name: "registro",
+    name: "Registro",
     href: "/auth",
     icon: ".",
   },
   {
-    name: "dashboard",
+    name: "Dashboard",
     href: "/dashboard",
-    icon: ".",
-  },
-  {
-    name: "test",
-    href: "/404",
     icon: ".",
   },
 ];

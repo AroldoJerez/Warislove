@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import NextAuthProvider from "./context/NextAuthProvider";
 import AnimatedBackground from "./components/AnimateBackground";
+import { getServerSession } from "next-auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,16 +12,19 @@ export const metadata: Metadata = {
   description: "Generado gracias a MELEVENGO",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   isTrueSideBar: boolean;
   children: React.ReactNode;
 }) {
+  const session = await getServerSession();
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AnimatedBackground></AnimatedBackground>
+        <NextAuthProvider session={session}>
+          <AnimatedBackground></AnimatedBackground>
+        </NextAuthProvider>
         {children}
       </body>
     </html>
