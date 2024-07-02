@@ -21,7 +21,7 @@ export default async function DataGuild() {
   const data = await getData();
   return (
     <main className="flex row-auto max-h-screen">
-      <Sidebar></Sidebar>
+      <Sidebar />
       <DashboardTable data={data}></DashboardTable>
     </main>
   );

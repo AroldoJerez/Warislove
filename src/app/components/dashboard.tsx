@@ -19,10 +19,6 @@ export default function DashboardTable({ data }: any) {
                 {player.Name}
                 <br />
               </li>
-              <li>
-                <strong className="w-52">Saldo:</strong>$0
-                <br />
-              </li>
             </ul>
           </li>
         ))}

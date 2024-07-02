@@ -43,6 +43,7 @@ export async function POST(request) {
       });
     }
     const dataAlbion = await getData();
+    console.log(dataAlbion.username.Id);
     if (dataAlbion.error) {
       return NextResponse.json({ error: dataAlbion.error }, { status: 400 });
     }
@@ -64,6 +65,7 @@ export async function POST(request) {
         username: data.username,
         guild: data.guild,
         email: data.email,
+        idAlbion: dataAlbion.username.Id,
         password: hashedPass,
       },
     });

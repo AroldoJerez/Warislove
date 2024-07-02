@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 interface FormInputs {
   nameGuild: string;
@@ -23,12 +23,15 @@ export default function SetupGuild() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("/api/setup");
+        const response = await fetch("/api/dataGuild");
         const data = await response.json();
         if (data.data) {
           setGuildDataExists(true);
           setValue("nameGuild", data.data.nameGuild);
           setValue("idGuild", data.data.idGuild);
+        } else {
+          setValue("nameGuild", "");
+          setValue("idGuild", "");
         }
       } catch (error) {
         setMessageErrors(
@@ -40,17 +43,26 @@ export default function SetupGuild() {
   }, [setValue]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-    const response = await fetch("api/setup", {
-      method: "POST",
-      body: JSON.stringify({
-        nameGuild: formData.nameGuild,
-        idGuild: formData.idGuild,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    if (response.ok) {
+    try {
+      const response = await fetch("/api/setup", {
+        method: "POST",
+        body: JSON.stringify({
+          nameGuild: formData.nameGuild,
+          idGuild: formData.idGuild,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error en la solicitud");
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      setMessageErrors("Error al actualizar el gremio. Intente de nuevo.");
     }
   };
 
@@ -69,7 +81,12 @@ export default function SetupGuild() {
             {...register("nameGuild", {
               required: { value: true, message: "Ingrese nombre de su gremio" },
             })}
-          ></input>
+          />
+          {errors.nameGuild && (
+            <span className="text-red-500 text-sm">
+              {errors.nameGuild.message}
+            </span>
+          )}
           <label>Id del gremio</label>
           <input
             type="text"
@@ -77,7 +94,7 @@ export default function SetupGuild() {
             {...register("idGuild", {
               required: { value: true, message: "Ingrese id de su gremio" },
             })}
-          ></input>
+          />
           {errors.idGuild && (
             <span className="text-red-500 text-sm">
               {errors.idGuild.message}

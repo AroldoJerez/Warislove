@@ -12,6 +12,7 @@ model User {
   username  String   @unique
   email     String   @unique
   guild     String
+  idAlbion  String
   password  String
   money     Money?
   role      String?  @default("member")
