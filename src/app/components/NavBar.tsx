@@ -30,16 +30,23 @@ export default function NavBar() {
         />
       </button>
       <ul className="flex gap-4 h-20">
-        {sidebarItems.map(({ name, href }) => {
-          return (
-            <li className="sidebar__item justify-center" key={name}>
-              <Link className="sidebar__link" href={href}>
-                <span className="sidebar__name">{name}</span>
-              </Link>
-            </li>
-          );
-        })}
-        <button className="bottom-4" onClick={handleSign}>
+        {sidebarItems
+          .filter((data) => {
+            if (session) {
+              return data.name !== "Registro";
+            }
+            return true;
+          })
+          .map(({ name, href }) => {
+            return (
+              <li className="sidebar__item justify-center" key={name}>
+                <Link className="sidebar__link" href={href}>
+                  <span className="sidebar__name">{name}</span>
+                </Link>
+              </li>
+            );
+          })}
+        <button className="bottom-4 sidebar__item p-2" onClick={handleSign}>
           {session ? "Cerrar sesión" : "Iniciar sesión"}
         </button>
       </ul>

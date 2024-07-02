@@ -51,6 +51,6 @@ li {
 }
 
 .sidebar__item:hover {
-  background-color: #bdbdbd1c;
+  background-color: #82a8f41c;
   box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.139);
 }

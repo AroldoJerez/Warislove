@@ -4,10 +4,12 @@ import Link from "next/link";
 import logo from "../../../public/logo.png";
 import sidebarItems from "@/utils/sidebaritems";
 import { useState, useEffect } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import router from "next/router";
 
 const Sidebar = () => {
   const [guildName, setGuildName] = useState<string>(""); // Estado para almacenar el nombre del gremio
+  const { data: session } = useSession(); // Obtener la sesión del usuario
 
   useEffect(() => {
     async function fetchGuildData() {
@@ -24,6 +26,14 @@ const Sidebar = () => {
     fetchGuildData();
   });
 
+  const handleSign = () => {
+    if (session) {
+      signOut(); // Cerrar sesión si hay una sesión activa
+    } else {
+      router.push("/auth/login"); // Aquí puedes manejar la lógica para iniciar sesión
+    }
+  };
+
   return (
     <nav className="bg-white w-48 min-h-screen fixed text-slate-700">
       <Link href="/">
@@ -36,22 +46,29 @@ const Sidebar = () => {
           </p>
         </div>
         <ul className="sidebar__list border-solid">
-          {sidebarItems.map(({ name, href }) => {
-            return (
-              <li className="sidebar__item w-48" key={name}>
-                <Link className="sidebar__link" href={href}>
-                  <p className="sidebar__name">{name}</p>
-                </Link>
-              </li>
-            );
-          })}
+          {sidebarItems
+            .filter((data) => {
+              if (session) {
+                return data.name !== "Registro";
+              }
+              return true;
+            })
+            .map(({ name, href }) => {
+              return (
+                <li className="sidebar__item w-48" key={name}>
+                  <Link className="sidebar__link" href={href}>
+                    <p className="sidebar__name">{name}</p>
+                  </Link>
+                </li>
+              );
+            })}
         </ul>
       </aside>
       <button
         className="bg-red-500 absolute bottom-4 text-center font-semibold w-full h-10 cursor-pointer hover:bg-red-900 text-white"
-        onClick={() => signOut()}
+        onClick={() => handleSign()}
       >
-        Cerrar sesión
+        {session ? "Cerrar sesión" : "Iniciar sesión"}
       </button>
     </nav>
   );
