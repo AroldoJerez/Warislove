@@ -1,17 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/libs/db";
 import bcrypt from "bcrypt";
-
-async function getData() {
-  try {
-    const res = await fetch(
-      "https://gameinfo.albiononline.com/api/gameinfo/guilds/4ZOavdN2RyqcUGw-yG-v8w/members"
-    );
-    return res.json();
-  } catch (error) {
-    return { error: "Failed to fetch data" };
-  }
-}
+import { getUserData } from "@/utils/getDataAlbionUser";
 
 export async function POST(request) {
   try {
@@ -42,16 +32,14 @@ export async function POST(request) {
         status: 200,
       });
     }
-    const dataAlbion = await getData();
-    console.log(dataAlbion.username.Id);
-    if (dataAlbion.error) {
-      return NextResponse.json({ error: dataAlbion.error }, { status: 400 });
+    const userAlbion = await getUserData(data.username);
+    if (userAlbion.error) {
+      return NextResponse.json({ error: userAlbion.error }, { status: 400 });
     }
-
-    const userExistsInAlbion = dataAlbion.some(
-      (member) => member.Name.toLowerCase() === data.username.toLowerCase()
-    );
-
+    const userExistsInAlbion =
+      userAlbion.Name.toLowerCase() === data.username.toLowerCase()
+        ? true
+        : false;
     if (!userExistsInAlbion) {
       return NextResponse.json({
         data: "",
@@ -59,13 +47,14 @@ export async function POST(request) {
         status: 200,
       });
     }
+
     const hashedPass = await bcrypt.hash(data.password, 10);
     const newUser = await prisma.user.create({
       data: {
         username: data.username,
         guild: data.guild,
         email: data.email,
-        idAlbion: dataAlbion.username.Id,
+        idAlbion: userAlbion.Id,
         password: hashedPass,
       },
     });

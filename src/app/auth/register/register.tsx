@@ -3,6 +3,7 @@ import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { useEffect, useState } from "react";
 import NavBar from "../../components/NavBar";
 import { useRouter } from "next/navigation";
+import { fetchGuildData } from "@/utils/guildDataUtils";
 
 interface FormInputs {
   username: string;
@@ -24,21 +25,19 @@ export default function Signup() {
   const [guildName, setGuildName] = useState<string>(""); // Estado para almacenar el nombre del gremio
 
   useEffect(() => {
-    async function fetchGuildData() {
+    async function loadGuildData() {
       try {
-        const response = await fetch("api/dataGuild"); // Endpoint para obtener los datos del gremio
-        const data = await response.json();
-        if (data.data) {
-          setGuildName(data.data.nameGuild); // Asignar el nombre del gremio desde la respuesta del servidor
+        const data = await fetchGuildData();
+        if (data) {
+          setGuildName(data.nameGuild);
         }
       } catch (error) {
-        console.error("Error al obtener datos del gremio:", error);
         setMessageErrors(
           "Error al obtener datos del gremio. Por favor, intente nuevamente."
         );
       }
     }
-    fetchGuildData();
+    loadGuildData();
   }, []);
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
@@ -56,11 +55,11 @@ export default function Signup() {
         },
       });
       const data = await response.json();
-
       if (data.data === "") {
         setMessageErrors(data.message || "Error desconocido");
       } else {
         router.push("/auth/login");
+        router.refresh;
       }
     } catch (error) {
       if (error instanceof Error) {

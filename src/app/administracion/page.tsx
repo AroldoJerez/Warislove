@@ -1,3 +1,4 @@
+// pages/administrador.tsx
 import { PrismaClient } from "@prisma/client";
 import Sidebar from "../components/Sidebar";
 
@@ -6,7 +7,6 @@ const prisma = new PrismaClient();
 export default async function administracion() {
   const allUsers = await prisma.user.findMany();
   const allMoney = await prisma.money.findMany();
-
   return (
     <main className="flex row-auto max-h-screen">
       <Sidebar />
