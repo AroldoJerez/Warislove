@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const { data: session } = useSession(); // Obtener la sesión del usuario
-    const userRole = session?.user?.role;
+  const userRole = session ? session?.user?.role : "No has iniciado session";
   const router = useRouter();
   const handleSign = () => {
     if (session) {

@@ -11,7 +11,7 @@ const Sidebar = () => {
   const [guildName, setGuildName] = useState<string>(""); // Estado para almacenar el nombre del gremio
   const { data: session } = useSession(); // Obtener la sesión del usuario
   const router = useRouter();
-  const userRole = session?.user?.role;
+  const userRole = session ? session?.user?.role : "No has iniciado session";
   useEffect(() => {
     async function fetchGuildData() {
       try {
