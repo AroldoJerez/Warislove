@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const { data: session } = useSession(); // Obtener la sesión del usuario
+    const userRole = session?.user?.role;
   const router = useRouter();
-
   const handleSign = () => {
     if (session) {
       signOut(); // Cerrar sesión si hay una sesión activa
@@ -46,6 +46,14 @@ export default function NavBar() {
               </li>
             );
           })}
+        {userRole === "admin" && (
+          <button
+            className="bottom-4 sidebar__item p-2"
+            onClick={() => router.push("/administracion")}
+          >
+            Administracion
+          </button>
+        )}
         <button className="bottom-4 sidebar__item p-2" onClick={handleSign}>
           {session ? "Cerrar sesión" : "Iniciar sesión"}
         </button>

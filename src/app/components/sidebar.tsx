@@ -5,12 +5,13 @@ import logo from "../../../public/logo.png";
 import sidebarItems from "@/utils/sidebaritems";
 import { useState, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [guildName, setGuildName] = useState<string>(""); // Estado para almacenar el nombre del gremio
   const { data: session } = useSession(); // Obtener la sesión del usuario
-
+  const router = useRouter();
+  const userRole = session?.user?.role;
   useEffect(() => {
     async function fetchGuildData() {
       try {
@@ -32,6 +33,10 @@ const Sidebar = () => {
     } else {
       router.push("/auth/login"); // Aquí puedes manejar la lógica para iniciar sesión
     }
+  };
+
+  const handleAdmin = () => {
+    router.push("/administracion");
   };
 
   return (
@@ -64,12 +69,22 @@ const Sidebar = () => {
             })}
         </ul>
       </aside>
-      <button
-        className="bg-red-500 absolute bottom-4 text-center font-semibold w-full h-10 cursor-pointer hover:bg-red-900 text-white"
-        onClick={() => handleSign()}
-      >
-        {session ? "Cerrar sesión" : "Iniciar sesión"}
-      </button>
+      <div className="flex-col absolute bottom-4 w-full ">
+        {userRole === "admin" && (
+          <button
+            className="bg-green-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-green-900 text-white mb-1"
+            onClick={() => handleAdmin()}
+          >
+            administacion
+          </button>
+        )}
+        <button
+          className="bg-red-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-red-900 text-white"
+          onClick={() => handleSign()}
+        >
+          {session ? "Cerrar sesión" : "Iniciar sesión"}
+        </button>
+      </div>
     </nav>
   );
 };

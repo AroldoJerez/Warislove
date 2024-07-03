@@ -6,7 +6,10 @@ export default withAuth(
   async function middleware(req) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-    if (req.nextUrl.pathname.startsWith("/administracion")) {
+    if (
+      req.nextUrl.pathname.startsWith("/administracion") ||
+      req.nextUrl.pathname.startsWith("/setup")
+    ) {
       if (!token || token.role !== "admin") {
         return NextResponse.redirect(new URL("/unauthorized", req.url));
       }
@@ -22,5 +25,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/dashboard", "/administracion"],
+  matcher: ["/dashboard", "/administracion", "/setup"],
 };

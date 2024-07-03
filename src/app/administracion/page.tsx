@@ -16,6 +16,7 @@ export default async function administracion() {
             const userMoney = allMoney.find(
               (money) => money.userId === player.id
             );
+            const mountFinal = userMoney.amount.toString();
             return (
               <li key={player.id}>
                 <ul
@@ -26,17 +27,14 @@ export default async function administracion() {
                   <li className="text-lx min-w-20">
                     <strong>Id:</strong>
                     {player.id}
-                    <br />
                   </li>
                   <li className="w-52">
                     <strong>Nombre:</strong>
                     {player.username}
-                    <br />
                   </li>
-                  <li>
-                    <strong className="w-52">Saldo:</strong>
-                    {userMoney.amount}
-                    <br />
+                  <li className="flex min-w-40">
+                    <strong>Saldo: </strong>
+                    <input type="text" placeholder={mountFinal} />
                   </li>
                 </ul>
               </li>
