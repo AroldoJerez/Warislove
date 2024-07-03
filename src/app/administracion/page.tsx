@@ -28,6 +28,10 @@ export default async function administracion() {
                     <strong>Id:</strong>
                     {player.id}
                   </li>
+                  <li className="min-w-64">
+                    <strong>Id Guild:</strong>
+                    <p className="text-xs flex items-center">{player.idAlbion}</p>
+                  </li>
                   <li className="w-52">
                     <strong>Nombre:</strong>
                     {player.username}
