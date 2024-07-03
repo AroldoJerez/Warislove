@@ -37,12 +37,30 @@ export const authOptions = {
           id: userFound.id,
           name: userFound.username,
           email: userFound.email,
+          role: userFound.role,
         };
       },
     }),
   ],
   pages: {
     signIn: "/auth/login",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        console.log("User:", user);
+        token.role = user.role;
+      }
+      console.log("JWT Token:", token);
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.role = token.role;
+      }
+      console.log("Session:", session);
+      return session;
+    },
   },
 };
 

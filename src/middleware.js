@@ -1,30 +1,25 @@
 //export { default } from "next-auth/middleware";
 
 //export const config = { matcher: ["/dashboard"] };
-
-// middleware.js
-import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 export async function middleware(req) {
+  console.log("Middleware ejecutado");
+
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  const { pathname } = req.nextUrl;
 
-  // Check if the user is authenticated
-  if (!token) {
-    // Redirect to login if not authenticated
-    return NextResponse.redirect(new URL("/auth/login", req.url));
+  console.log("Token:", token);
+
+  if (!token || token.role !== "admin") {
+    console.log("No autorizado");
+    return NextResponse.redirect(new URL("/unauthorized", req.url));
   }
 
-  // Check if the user has the right role for /administrador
-  if (pathname.startsWith("/administrador") && token.role !== "admin") {
-    // Redirect to a "not authorized" page or home if the user is not an admin
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-
+  console.log("Autorizado");
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard", "/administrador"],
+  matcher: ["/administrador"],
 };
