@@ -24,8 +24,6 @@ export const authOptions = {
 
         if (!userFound) throw new Error("Usuario o contraseña incorrecto");
 
-        console.log(userFound);
-
         const matchPassword = await bcrypt.compare(
           credentials.password,
           userFound.password
@@ -48,17 +46,14 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        console.log("User:", user);
         token.role = user.role;
       }
-      console.log("JWT Token:", token);
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.role = token.role;
       }
-      console.log("Session:", session);
       return session;
     },
   },

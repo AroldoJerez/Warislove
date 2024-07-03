@@ -15,11 +15,6 @@ const sidebarItems = [
     href: "/dashboard",
     icon: ".",
   },
-  {
-    name: "Administracion",
-    href: "/administracion",
-    icon: ".",
-  },
 ];
 
 export default sidebarItems;
