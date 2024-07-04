@@ -16,6 +16,7 @@ model User {
   password  String
   money     Money?
   role      String?  @default("member")
+  eventos   event[] @relation("ParticipaEnEvento")
   logs     Log[]  // Relación inversa
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,4 +45,11 @@ model Log {
   oldValue     String       // o cualquier tipo de dato que represente el valor anterior
   newValue     String       // o cualquier tipo de dato que represente el nuevo valor
   timestamp    DateTime  @default(now())
+}
+
+model event{
+  id Int @id @default(autoincrement())
+ participantes  User[] @relation("ParticipaEnEvento")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

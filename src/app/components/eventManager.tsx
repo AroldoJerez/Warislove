@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-export default function EventManager({ data }: any) {
+export default function EventManager() {
   const router = useRouter();
   const handleClick = () => {
     router.push("/evento");

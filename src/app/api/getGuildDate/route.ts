@@ -1,6 +1,8 @@
 // pages/api/guildData.ts aca vemos si hay datos en el setup
-import prisma from "@/libs/db";
 import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export async function GET() {
   try {

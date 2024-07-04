@@ -1,10 +1,12 @@
-export default function tabletEventManager() {
+"use client";
+export default function ManagerEventTable(usuario) {
   const handleEditToggle = () => {};
 
   const handleSaveAmounts = async () => {};
+  console.log(usuario);
   return (
     <div>
-      <ul id="listnav"></ul>
+      <ul id="listnav">{usuario && <p>{usuario["name"] + "hola"}</p>}</ul>
       <div>
         <button
           onClick={handleEditToggle}
