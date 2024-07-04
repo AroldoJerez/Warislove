@@ -1,28 +1,29 @@
-export default function DashboardTable({ data }: any) {
+export default function Dashboard({ allUsers, allMoney }) {
   return (
-    <div className="ml-48 p-4 grow flex justify-center">
-      <ul id="listnav">
-        {data.map((player: any) => (
-          <li key={player.Id}>
-            <ul
-              key={player.Id + player.name}
-              className="flex gap-2"
-              id="listcenter"
+    <div className="bg-white shadow-lg border-2 border-gray-800">
+      {allUsers.map((usuarios) => {
+        const userMoney = allMoney.find(
+          (money) => money.userId === usuarios.id
+        );
+        return (
+          <ul key={usuarios.id + "_ul"} className="flex">
+            <li className="w-28 border-2 p-2 text-center">
+              {usuarios.username}
+            </li>
+            <li
+              className={`w-64 border-2 p-2 text-center text-white ${
+                userMoney && userMoney.amount === 0
+                  ? "bg-red-500"
+                  : "bg-green-700"
+              }`}
             >
-              <li className="text-lx w-80">
-                <strong>Id:</strong>
-                {player.Id}
-                <br />
-              </li>
-              <li className="w-52">
-                <strong>Nombre:</strong>
-                {player.Name}
-                <br />
-              </li>
-            </ul>
-          </li>
-        ))}
-      </ul>
+              {userMoney && userMoney.amount !== 0
+                ? "$" + userMoney.amount.toLocaleString()
+                : "Asiste a la actividades split"}
+            </li>
+          </ul>
+        );
+      })}
     </div>
   );
 }

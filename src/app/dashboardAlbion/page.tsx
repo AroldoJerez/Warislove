@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Sidebar from "../components/Sidebar";
-import DashboardTable from "../components/Dashboard";
+import DashboardTable from "../components/DashboardTable";
 
 async function getData() {
   try {

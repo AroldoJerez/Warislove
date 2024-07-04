@@ -15,7 +15,7 @@ const Sidebar = () => {
   useEffect(() => {
     async function fetchGuildData() {
       try {
-        const response = await fetch("/api/dataGuild"); // Endpoint para obtener los datos del gremio
+        const response = await fetch("/api/getGuildDate"); // Endpoint para obtener los datos del gremio
         const data = await response.json();
         if (data.data) {
           setGuildName(data.data.nameGuild); // Asignar el nombre del gremio desde la respuesta del servidor

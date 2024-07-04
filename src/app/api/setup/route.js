@@ -1,3 +1,4 @@
+//setup.js aca enviamos o editamos los datos de el gremio en el back
 import { NextResponse } from "next/server";
 import prisma from "@/libs/db";
 
