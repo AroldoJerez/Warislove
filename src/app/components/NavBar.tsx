@@ -47,12 +47,20 @@ export default function NavBar() {
             );
           })}
         {userRole === "admin" && (
-          <button
-            className="bottom-4 sidebar__item p-2"
-            onClick={() => router.push("/administracion")}
-          >
-            Administracion
-          </button>
+          <>
+            <button
+              className="bottom-4 sidebar__item p-2"
+              onClick={() => router.push("/dashboardAlbion")}
+            >
+              Listado Gremial
+            </button>
+            <button
+              className="bottom-4 sidebar__item p-2"
+              onClick={() => router.push("/administracion")}
+            >
+              Administracion
+            </button>
+          </>
         )}
         <button className="bottom-4 sidebar__item p-2" onClick={handleSign}>
           {session ? "Cerrar sesión" : "Iniciar sesión"}
