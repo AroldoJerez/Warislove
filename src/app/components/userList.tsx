@@ -50,18 +50,37 @@ export default function UserList() {
     try {
       // Hacer la solicitud al backend y esperar la respuesta
       await Promise.all(
-        users.map((user) =>
-          fetch(`/api/users`, {
+        users.map(async (user) => {
+          const oldAmount = user.money.amount;
+          const newAmount = editedAmounts[user.id];
+
+          // Actualizar el monto en la base de datos
+          await fetch(`/api/users`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               userId: user.id,
-              amount: editedAmounts[user.id],
+              amount: newAmount,
             }),
-          })
-        )
+          });
+
+          // Crear un log de la acción a través de la API
+          await fetch("/api/logs", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              action: "update_amount",
+              userId: user.id,
+              oldValue: oldAmount.toString(),
+              newValue: newAmount.toString(),
+              timestamp: new Date().toISOString(),
+            }),
+          });
+        })
       );
 
       // Si la solicitud se completa con éxito, actualizar el estado local

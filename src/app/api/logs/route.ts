@@ -1,27 +1,28 @@
-import { PrismaClient } from '@prisma/client';
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function POST(req, res) {
+export async function POST(request: Request) {
   try {
-    const { action, userId, oldValue, newValue } = await req.json();
+    const { action, userId, oldValue, newValue } = await request.json();
 
-    if (!action || !userId || oldValue === undefined || newValue === undefined) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
-
-    const log = await prisma.log.create({
+    // Crear un nuevo log en la base de datos
+    const newLog = await prisma.log.create({
       data: {
         action,
-        userId,
+        user: { connect: { id: parseInt(userId) } },
         oldValue,
         newValue,
       },
     });
 
-    return res.status(201).json(log);
+    return NextResponse.json(newLog);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error creating log:", error);
+    return NextResponse.json(
+      { error: "Failed to create log" },
+      { status: 500 }
+    );
   }
 }

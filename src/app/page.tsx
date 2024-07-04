@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import logo from "../../public/logo.png";
 import NavBar from "./components/NavBar";
+import EventManager from "./components/eventManager";
 
 export default function Home() {
   const [messageErrors, setMessageErrors] = useState("");
@@ -30,6 +31,7 @@ export default function Home() {
 
   return (
     <>
+      <EventManager />
       <NavBar />
       <section className="flex min-h-screen items-center justify-center text-6xl font-serif">
         <div className="text-white">{guildName}</div>

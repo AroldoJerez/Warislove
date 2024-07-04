@@ -4,7 +4,7 @@
 
 export async function fetchGuildData() {
   try {
-    const response = await fetch("/api/dataGuild"); // Asegúrate de que la URL sea correcta
+    const response = await fetch("/api/getGuildDate"); // Asegúrate de que la URL sea correcta
     if (!response.ok) {
       throw new Error("Error al obtener datos del gremio");
     }
