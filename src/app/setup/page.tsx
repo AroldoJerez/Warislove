@@ -23,7 +23,7 @@ export default function SetupGuild() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("/api/dataGuild");
+        const response = await fetch("/api/getGuildDate");
         const data = await response.json();
         if (data.data) {
           setGuildDataExists(true);

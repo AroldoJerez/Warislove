@@ -16,6 +16,7 @@ model User {
   password  String
   money     Money?
   role      String?  @default("member")
+  logs     Log[]  // Relación inversa
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -33,4 +34,14 @@ model GuildData {
   idGuild     String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Log {
+  id           Int       @id @default(autoincrement())
+  action       String
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id])
+  oldValue     String       // o cualquier tipo de dato que represente el valor anterior
+  newValue     String       // o cualquier tipo de dato que represente el nuevo valor
+  timestamp    DateTime  @default(now())
 }
