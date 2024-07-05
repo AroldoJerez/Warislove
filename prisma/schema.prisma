@@ -51,7 +51,8 @@ model event{
   id              Int @id @default(autoincrement())
   participantes   User[] @relation("ParticipaEnEvento")
   split           Float
-  Completed       Boolean  @default(false)
+  completed       Boolean  @default(false)
+  actived         Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

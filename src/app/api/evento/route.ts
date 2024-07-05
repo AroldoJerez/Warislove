@@ -1,39 +1,45 @@
-// /pages/api/evento.js
+import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { userId } = req.body;
+export async function POST(request: Request) {
+  try {
+    const { userName, eventId } = await request.json();
 
-    try {
-      // Ejemplo de cómo podrías agregar el usuario a la lista de participantes
-      const evento = await prisma.evento.findUnique({
-        where: { id: eventoId },
-      });
+    // Verificar si el evento existe
+    const evento = await prisma.event.findUnique({
+      where: { id: Number(eventId) },
+    });
 
-      if (!evento) {
-        return res.status(404).json({ error: "Evento no encontrado" });
-      }
-
-      // Agregar userId a la lista de participantes del evento
-      await prisma.evento.update({
-        where: { id: eventoId },
-        data: {
-          participantes: {
-            connect: { id: userId },
-          },
-        },
-      });
-
-      return res.status(200).json({ message: "Usuario agregado al evento" });
-    } catch (error) {
-      console.error("Error al procesar la solicitud:", error);
-      return res.status(500).json({ error: "Error interno del servidor" });
+    if (!evento) {
+      return NextResponse.json({ error: "Evento no encontrado" });
     }
-  }
+    //obtener el id por medio del usuario que viene desde session
+    const user = await prisma.user.findUnique({
+      where: { username: userName },
+    });
+    if (!user) {
+      return NextResponse.json({ error: "Usuario no encontrado" });
+    }
+    const userId = user.id;
 
-  // Manejar otros métodos de solicitud si es necesario
-  return res.status(405).json({ error: "Método no permitido" });
+    // Agregar userId a la lista de participantes del evento
+    const add = await prisma.event.update({
+      where: { id: Number(eventId) },
+      data: {
+        participantes: {
+          connect: { id: Number(userId) },
+        },
+      },
+    });
+
+    return NextResponse.json({ data: add, message: "Usuario Agregado" });
+  } catch (error) {
+    console.error("Error creating log:", error);
+    return NextResponse.json(
+      { error: "Failed to create log" },
+      { status: 500 }
+    );
+  }
 }

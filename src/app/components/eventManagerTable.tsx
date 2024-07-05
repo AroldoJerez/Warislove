@@ -1,13 +1,59 @@
 "use client";
+
+import { useState } from "react";
+
 export default function ManagerEventTable({ newusers, userlist }) {
+  const [message, setMessage] = useState("");
+
   const handleEditToggle = () => {};
 
   const handleSaveAmounts = async () => {};
-  const rol = newusers.role;
 
+  const handleParticipates = async () => {
+    const eventId = userlist.id;
+    const userName = newusers.name;
+    try {
+      const response = await fetch("/api/evento", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userName, eventId }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Error al participar en el evento");
+      }
+
+      const data = await response.json();
+      setMessage(data.message); // Actualiza el estado o muestra el mensaje de éxito
+    } catch (error) {
+      console.error("Error al participar en el evento:", error.message);
+    }
+  };
+
+  if (!newusers) {
+    return (
+      <div className="bg-white rounded-lg p-10 font-semibold">
+        <p>
+          Debes <a href="/auth/login">iniciar session</a>
+        </p>
+      </div>
+    );
+  }
+  const rol = newusers.role;
   return (
     <div className="flex-col bg-orange-400 p-5">
-      <h1 className="font-semibold text-">PARTICIPANTES</h1>
+      <div className="flex justify-between mb-5">
+        <h1 className="font-semibold ">PARTICIPANTES</h1>
+        <button
+          onClick={handleParticipates}
+          className="min-w-24 h-10 px-3 rounded bg-red-500 hover:bg-red-600 text-white"
+        >
+          Participar
+        </button>
+      </div>
       <ul className="bg-white">
         {userlist && userlist.participantes.length > 0 ? (
           userlist.participantes.map((user) => (
@@ -26,7 +72,7 @@ export default function ManagerEventTable({ newusers, userlist }) {
       </ul>
       <div>
         <div className="p-4 flex items-center w-full content-center justify-center font-semibold">
-          <label className="text-white mr-4">Monto del split: </label>
+          <label className="mr-4">Monto del split: </label>
           {rol === "admin" ? (
             <input type="text" className="w-40 text-center" />
           ) : (
@@ -50,6 +96,7 @@ export default function ManagerEventTable({ newusers, userlist }) {
           </div>
         )}
       </div>
+      {message && <p>{message}</p>}
     </div>
   );
 }

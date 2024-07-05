@@ -8,20 +8,22 @@ const prisma = new PrismaClient();
 
 export default async function Evento() {
   const session = await getServerSession(authOptions);
-  const listadeusuario = await prisma.event.findUnique({
+  const listadeusuario = await prisma.event.findFirst({
     where: {
-      id: 1,
+      actived: true,
     },
     include: {
       participantes: true, // Incluir los participantes del evento
     },
   });
-
   return (
     <>
       <Sidebar />
       <main className="flex justify-center items-center h-screen">
-        <ManagerEventTable newusers={session.user} userlist={listadeusuario} />
+        <ManagerEventTable
+          newusers={session ? session.user : null}
+          userlist={listadeusuario}
+        />
       </main>
     </>
   );
