@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-export default function Unauthorized() {
+export default function Unauthorized({messagge}) {
   const [seconds, setSeconds] = useState(10);
   const router = useRouter();
 
@@ -21,10 +21,8 @@ export default function Unauthorized() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="flex flex-col justify-center items-center content-center bg-white rounded-sm w-max h-min-24 p-5">
-        <h1 className="text-red-700 font-semibold">No Autorizado</h1>
-        <p className="text-red-500">
-          No tienes permiso para acceder a esta página.
-        </p>
+        <h1 className="text-red-700 font-semibold">Ha ocurrido un inconveniente</h1>
+        <p className="text-red-500">{messagge}</p>
         <div>
           {seconds > 0 ? (
             <div className="flex-col text-center">
