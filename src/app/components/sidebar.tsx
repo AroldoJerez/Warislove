@@ -73,22 +73,28 @@ const Sidebar = () => {
         {userRole === "admin" && (
           <>
             <button
-              className="bg-blue-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-blue-900 text-white mb-1"
+              className="bg-orange-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-orange-700 text-white mb-1"
+              onClick={() => handleAdmin("/createdEvent")}
+            >
+              Crear Evento
+            </button>
+            <button
+              className="bg-blue-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-blue-700 text-white mb-1"
               onClick={() => handleAdmin("/dashboardAlbion")}
             >
               Listado Gremial
             </button>
 
             <button
-              className="bg-green-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-green-900 text-white mb-1"
+              className="bg-green-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-green-700 text-white mb-1"
               onClick={() => handleAdmin("/administracion")}
             >
-              administacion
+              Administacion
             </button>
           </>
         )}
         <button
-          className="bg-red-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-red-900 text-white"
+          className="bg-red-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-red-700 text-white"
           onClick={() => handleSign()}
         >
           {session ? "Cerrar sesión" : "Iniciar sesión"}

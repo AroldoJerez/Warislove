@@ -22,7 +22,7 @@ export default async function Evento() {
       <main className="flex justify-center items-center h-screen">
         <ManagerEventTable
           newusers={session ? session.user : null}
-          userlist={listadeusuario}
+          userlist={listadeusuario ? listadeusuario : null}
         />
       </main>
     </>

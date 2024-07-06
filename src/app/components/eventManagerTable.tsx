@@ -42,6 +42,15 @@ export default function ManagerEventTable({ newusers, userlist }) {
       </div>
     );
   }
+  if (!userlist) {
+    return (
+      <div className="bg-white rounded-lg p-10 font-semibold">
+        <p>
+          No existe evento creado... <a className="text-red-600 ml-5" href="/">VOLVER</a>{" "}
+        </p>
+      </div>
+    );
+  }
   const rol = newusers.role;
   return (
     <div className="flex-col bg-orange-400 p-5">
@@ -96,7 +105,9 @@ export default function ManagerEventTable({ newusers, userlist }) {
           </div>
         )}
       </div>
-      {message && <p>{message}</p>}
+      {message && (
+        <p className="w-full text-center text-red-700 mt-10">{message}</p>
+      )}
     </div>
   );
 }

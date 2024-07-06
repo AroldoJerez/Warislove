@@ -17,6 +17,7 @@ model User {
   money     Money?
   role      String?  @default("member")
   eventos   event[] @relation("ParticipaEnEvento")
+  eventosCreados   event[] @relation("CreadorDeEvento")
   logs      Log[]  // Relación inversa
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -48,11 +49,15 @@ model Log {
 }
 
 model event{
-  id              Int @id @default(autoincrement())
-  participantes   User[] @relation("ParticipaEnEvento")
-  split           Float
-  completed       Boolean  @default(false)
-  actived         Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                    Int      @id @default(autoincrement())
+  nameEvent            String
+  numberOfParticipants Float
+  participantes        User[]   @relation("ParticipaEnEvento")
+  split                Float    @default(0)
+  siteDeposited        String   @default("Debe ingresar un lugar")
+  userCreated          User[]   @relation("CreadorDeEvento")
+  completed            Boolean  @default(false)
+  actived              Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 }

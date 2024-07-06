@@ -54,3 +54,17 @@ li {
   background-color: #82a8f41c;
   box-shadow: inset 1px 1px 1px 1px rgba(0, 0, 0, 0.139);
 }
+
+#formEvent > input {
+  border: 2px solid rgba(88, 87, 87, 0.5);
+}
+
+#formEvent > input {
+  border: 2px solid rgba(88, 87, 87, 0.5);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

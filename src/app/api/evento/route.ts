@@ -8,9 +8,10 @@ export async function POST(request: Request) {
     const { userName, eventId } = await request.json();
 
     // Verificar si el evento existe
-    const evento = await prisma.event.findUnique({
-      where: { id: Number(eventId) },
-    });
+  const evento = await prisma.event.findUnique({
+    where: { id: Number(eventId) },
+    include: { participantes: true },
+  });
 
     if (!evento) {
       return NextResponse.json({ error: "Evento no encontrado" });
@@ -23,6 +24,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Usuario no encontrado" });
     }
     const userId = user.id;
+
+  const isParticipating = evento.participantes.some(
+    (participante) => participante.id === userId
+  );
+
+  if (isParticipating) {
+    return NextResponse.json({
+      message: "El usuario ya está participando en el evento",
+    });
+  }
 
     // Agregar userId a la lista de participantes del evento
     const add = await prisma.event.update({
