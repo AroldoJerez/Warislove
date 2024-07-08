@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ManagerEventTable({ newusers, userlist }) {
   const [message, setMessage] = useState("");
+  const [participants, setParticipants] = useState(
+    userlist.participantes || []
+  );
 
   const handleEditToggle = () => {};
 
@@ -28,6 +31,7 @@ export default function ManagerEventTable({ newusers, userlist }) {
 
       const data = await response.json();
       setMessage(data.message); // Actualiza el estado o muestra el mensaje de éxito
+      setParticipants(data.participantes); // Actualiza la lista de participantes con los datos devueltos desde la API
     } catch (error) {
       console.error("Error al participar en el evento:", error.message);
     }
@@ -46,7 +50,10 @@ export default function ManagerEventTable({ newusers, userlist }) {
     return (
       <div className="bg-white rounded-lg p-10 font-semibold">
         <p>
-          No existe evento creado... <a className="text-red-600 ml-5" href="/">VOLVER</a>{" "}
+          No existe evento creado...{" "}
+          <a className="text-red-600 ml-5" href="/">
+            VOLVER
+          </a>{" "}
         </p>
       </div>
     );

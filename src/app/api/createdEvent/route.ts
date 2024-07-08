@@ -7,6 +7,8 @@ export async function POST(request: Request) {
   try {
     const { nameEvent, numberOfParticipants, userId } = await request.json();
 
+    console.log(nameEvent, numberOfParticipants, userId);
+
     // Verificar si los datos son válidos
     if (!nameEvent || !numberOfParticipants || !userId) {
       return NextResponse.json(
@@ -19,7 +21,7 @@ export async function POST(request: Request) {
     const newEvent = await prisma.event.create({
       data: {
         nameEvent,
-        numberOfParticipants,
+        numberOfParticipants: Number(numberOfParticipants),
         userCreated: { connect: { id: parseInt(userId) } },
       },
     });
@@ -27,10 +29,12 @@ export async function POST(request: Request) {
     return NextResponse.json(newEvent);
   } catch (error) {
     console.error("Error creating event:", error);
-    return NextResponse.json(
-      { error: "Failed to create event" },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      data: "",
+      error: "Failed to create event",
+      status: 500,
+      message: "Error, contacte a un administrador",
+    });
   } finally {
     await prisma.$disconnect();
   }

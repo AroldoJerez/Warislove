@@ -12,6 +12,7 @@ declare module "next-auth" {
       email?: string;
       image?: string;
       role?: string; // Agregar la propiedad 'role'
+      id?: string;
     } & DefaultSession["user"];
   }
 }
@@ -26,6 +27,10 @@ export const { auth, handlers } = NextAuth({
         user: {
           ...session.user,
           role: user.role,
+        },
+        user: {
+          ...session.user,
+          id: user.id,
         },
       };
     },

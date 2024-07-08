@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { useSession } from "next-auth/react"; // Importar useSession y signOut desde next-auth/react
+import { useRouter } from "next/navigation";
+import router from "next/router";
 
 interface FormInputs {
   NameEvent: string;
@@ -10,7 +12,7 @@ interface FormInputs {
 
 export default function FormCreatedEvent() {
   const { data: session } = useSession(); // Obtener la sesión del usuario
-  console.log(session);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -19,13 +21,14 @@ export default function FormCreatedEvent() {
   const [messageErrors, setMessageErrors] = useState("");
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
+    console.log(session.user.id);
     try {
       const response = await fetch("api/createdEvent", {
         method: "POST",
         body: JSON.stringify({
           nameEvent: formData.NameEvent,
           numberOfParticipants: formData.numberOfParticipants,
-          userId: 0,
+          userId: session.user.id,
         }),
         headers: {
           "Content-type": "application/json",
@@ -35,7 +38,7 @@ export default function FormCreatedEvent() {
       if (data.data === "") {
         setMessageErrors(data.message || "Error desconocido");
       } else {
-        console.log("evento creado");
+        router.push("/evento");
       }
     } catch (error) {
       if (error instanceof Error) {
