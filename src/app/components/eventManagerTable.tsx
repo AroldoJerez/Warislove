@@ -1,12 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ManagerEventTable({ newusers, userlist }) {
   const [message, setMessage] = useState("");
-  const [participants, setParticipants] = useState(
-    userlist.participantes || []
-  );
+  const [participants, setParticipants] = useState([]);
+
+  useEffect(() => {
+    if (userlist && userlist.participantes) {
+      setParticipants(userlist.participantes);
+    }
+  }, [userlist]);
 
   const handleEditToggle = () => {};
 
@@ -31,7 +35,7 @@ export default function ManagerEventTable({ newusers, userlist }) {
 
       const data = await response.json();
       setMessage(data.message); // Actualiza el estado o muestra el mensaje de éxito
-      setParticipants(data.participantes); // Actualiza la lista de participantes con los datos devueltos desde la API
+      setParticipants(data.participantes);
     } catch (error) {
       console.error("Error al participar en el evento:", error.message);
     }
@@ -50,10 +54,10 @@ export default function ManagerEventTable({ newusers, userlist }) {
     return (
       <div className="bg-white rounded-lg p-10 font-semibold">
         <p>
-          No existe evento creado...{" "}
+          No existe evento creado...
           <a className="text-red-600 ml-5" href="/">
             VOLVER
-          </a>{" "}
+          </a>
         </p>
       </div>
     );
@@ -71,8 +75,8 @@ export default function ManagerEventTable({ newusers, userlist }) {
         </button>
       </div>
       <ul className="bg-white">
-        {userlist && userlist.participantes.length > 0 ? (
-          userlist.participantes.map((user) => (
+        {participants && participants.length > 0 ? (
+          participants.map((user) => (
             <ul key={user.id} className="flex w-full">
               <li className="w-40  border-slate-300 border-2">
                 {user.username}

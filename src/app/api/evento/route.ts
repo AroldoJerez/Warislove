@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     if (isParticipating) {
       return NextResponse.json({
         message: "El usuario ya está participando en el evento",
+        participantes: evento.participantes,
       });
     }
 

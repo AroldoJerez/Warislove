@@ -39,6 +39,7 @@ export default function FormCreatedEvent() {
         setMessageErrors(data.message || "Error desconocido");
       } else {
         router.push("/evento");
+        router.refresh();
       }
     } catch (error) {
       if (error instanceof Error) {
