@@ -1,5 +1,5 @@
-import Sidebar from "../components/Sidebar";
-import FormCreatedEvent from "../components/formCreatedEvent";
+import FormCreatedEvent from "@/app/components/formCreatedEvent";
+import Sidebar from "@/app/components/Sidebar";
 
 export default function createdEvent() {
   return (

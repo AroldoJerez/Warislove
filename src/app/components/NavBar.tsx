@@ -50,7 +50,7 @@ export default function NavBar() {
           <>
             <button
               className="bottom-4 sidebar__item p-2"
-              onClick={() => router.push("/dashboardAlbion")}
+              onClick={() => router.push("/administracion/dashboardAlbion")}
             >
               Listado Gremial
             </button>

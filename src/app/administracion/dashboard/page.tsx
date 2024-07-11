@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import Sidebar from "@/app/components/Sidebar";
 import Dashboard from "@/app/components/Dashboard";
+import Sidebar from "@/app/components/Sidebar";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

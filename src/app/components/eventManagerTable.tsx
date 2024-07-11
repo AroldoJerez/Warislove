@@ -20,7 +20,7 @@ export default function ManagerEventTable({ newusers, userlist }) {
     const eventId = userlist.id;
     const userName = newusers.name;
     try {
-      const response = await fetch("/api/evento", {
+      const response = await fetch("/api/evento/addUsers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

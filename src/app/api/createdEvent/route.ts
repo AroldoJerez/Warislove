@@ -7,14 +7,23 @@ export async function POST(request: Request) {
   try {
     const { nameEvent, numberOfParticipants, userId } = await request.json();
 
-    console.log(nameEvent, numberOfParticipants, userId);
-
+    const eventActived = await prisma.event.findFirst({
+      where: { actived: true },
+    });
+    if (eventActived) {
+      return NextResponse.json({
+        data: "",
+        error: "Ya existe un evento activo",
+        status: 400,
+      });
+    }
     // Verificar si los datos son válidos
     if (!nameEvent || !numberOfParticipants || !userId) {
-      return NextResponse.json(
-        { error: "Todos los campos son obligatorios" },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        error: "Todos los campos son obligatorios",
+        data: "",
+        status: 400,
+      });
     }
 
     // Crear un nuevo evento en la base de datos

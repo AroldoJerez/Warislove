@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { useSession } from "next-auth/react"; // Importar useSession y signOut desde next-auth/react
 import { useRouter } from "next/navigation";
-import router from "next/router";
 
 interface FormInputs {
   NameEvent: string;
@@ -21,7 +20,6 @@ export default function FormCreatedEvent() {
   const [messageErrors, setMessageErrors] = useState("");
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-    console.log(session.user.id);
     try {
       const response = await fetch("api/createdEvent", {
         method: "POST",
@@ -36,7 +34,7 @@ export default function FormCreatedEvent() {
       });
       const data = await response.json();
       if (data.data === "") {
-        setMessageErrors(data.message || "Error desconocido");
+        setMessageErrors(data.error || "Error desconocido");
       } else {
         router.push("/evento");
         router.refresh();
@@ -95,7 +93,7 @@ export default function FormCreatedEvent() {
           Crear Evento
         </button>
       </form>
-      <p className="text-red-500 mt-4">{messageErrors}</p>
+      <p className="text-red-500 mb-2">{messageErrors}</p>
     </div>
   );
 }
