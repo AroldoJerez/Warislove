@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Sidebar from "@/app/components/Sidebar";
 
 export default function EditarEvento() {
   const [eventos, setEventos] = useState([]);
@@ -34,28 +35,36 @@ export default function EditarEvento() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Editar Eventos</h1>
-      <ul className="list-disc pl-5">
-        {eventos.map((event) => (
-          <li
-            key={event.id}
-            onClick={() => handleSelectEvent(event)}
-            className={`cursor-pointer p-2 ${
-              selectedEvent?.id === event.id ? "bg-gray-200" : ""
-            }`}
+    <div>
+      <Sidebar />
+      <main className="flex justify-center items-center h-screen">
+        <div className="bg-white container w-auto p-5">
+          <h1 className="text-2xl font-bold mb-4">Editar Eventos</h1>
+          <p>Selecciona un evento:</p>
+          <ul className="list-disc w-full">
+            {eventos.map((event) => (
+              <li
+                key={event.id}
+                onClick={() => handleSelectEvent(event)}
+                className={`cursor-pointer mt-2 p-2 border-pink-800 flex items-center justify-center rounded ${
+                  selectedEvent?.id === event.id
+                    ? "border-2 bg-pink-400"
+                    : "bg-pink-300"
+                }`}
+              >
+                <p>{event.nameEvent}</p>
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={handleEditEvent}
+            className="mt-4 p-2 bg-red-500 text-white rounded hover:bg-yellow-500"
+            disabled={!selectedEvent}
           >
-            {event.nameEvent}
-          </li>
-        ))}
-      </ul>
-      <button
-        onClick={handleEditEvent}
-        className="mt-4 p-2 bg-blue-500 text-white rounded"
-        disabled={!selectedEvent}
-      >
-        Editar Evento
-      </button>
+            Editar Evento
+          </button>
+        </div>
+      </main>
     </div>
   );
 }

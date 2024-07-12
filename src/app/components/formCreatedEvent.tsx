@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useSession } from "next-auth/react"; // Importar useSession y signOut desde next-auth/react
 import { useRouter } from "next/navigation";
 
 interface FormInputs {
   NameEvent: string;
   numberOfParticipants: number;
+  siteDeposited: string;
 }
 
 export default function FormCreatedEvent() {
@@ -21,11 +22,12 @@ export default function FormCreatedEvent() {
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
     try {
-      const response = await fetch("api/createdEvent", {
+      const response = await fetch("/api/createdEvent", {
         method: "POST",
         body: JSON.stringify({
           nameEvent: formData.NameEvent,
           numberOfParticipants: formData.numberOfParticipants,
+          siteDeposited: formData.siteDeposited,
           userId: session.user.id,
         }),
         headers: {
@@ -34,7 +36,7 @@ export default function FormCreatedEvent() {
       });
       const data = await response.json();
       if (data.data === "") {
-        setMessageErrors(data.error || "Error desconocido");
+        setMessageErrors(data.message || "Error desconocido");
       } else {
         router.push("/evento");
         router.refresh();
@@ -84,6 +86,18 @@ export default function FormCreatedEvent() {
           placeholder="999999"
           {...register("numberOfParticipants", {
             required: { value: true, message: "Ingrese su usuario" },
+          })}
+        />
+        <label>Lugar del split</label>
+        {errors.siteDeposited && (
+          <span className="text-red-500">{errors.siteDeposited.message}</span>
+        )}
+        <input
+          type="string"
+          className="placeholder:text-center text-center"
+          placeholder="Ejemplo: loot split 1 lymhurst"
+          {...register("siteDeposited", {
+            required: { value: true, message: "Ingrese el lugar" },
           })}
         />
         <button

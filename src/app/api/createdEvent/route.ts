@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
-    const { nameEvent, numberOfParticipants, userId } = await request.json();
+    const { nameEvent, numberOfParticipants, siteDeposited, userId } =
+      await request.json();
 
     const eventActived = await prisma.event.findFirst({
       where: { actived: true },
@@ -13,7 +14,7 @@ export async function POST(request: Request) {
     if (eventActived) {
       return NextResponse.json({
         data: "",
-        error: "Ya existe un evento activo",
+        message: "Ya existe un evento activo",
         status: 400,
       });
     }
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
       data: {
         nameEvent,
         numberOfParticipants: Number(numberOfParticipants),
+        siteDeposited,
         userCreated: { connect: { id: parseInt(userId) } },
       },
     });

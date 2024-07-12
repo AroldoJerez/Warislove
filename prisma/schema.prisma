@@ -54,7 +54,7 @@ model event{
   numberOfParticipants Float
   participantes        User[]   @relation("ParticipaEnEvento")
   split                Float    @default(0)
-  siteDeposited        String   @default("Debe ingresar un lugar")
+  siteDeposited        String
   userCreated          User[]   @relation("CreadorDeEvento")
   completed            Boolean  @default(false)
   actived              Boolean  @default(true)

@@ -12,10 +12,6 @@ export default function ManagerEventTable({ newusers, userlist }) {
     }
   }, [userlist]);
 
-  const handleEditToggle = () => {};
-
-  const handleSaveAmounts = async () => {};
-
   const handleParticipates = async () => {
     const eventId = userlist.id;
     const userName = newusers.name;
@@ -62,7 +58,6 @@ export default function ManagerEventTable({ newusers, userlist }) {
       </div>
     );
   }
-  const rol = newusers.role;
   return (
     <div className="flex-col bg-orange-400 p-5">
       <div className="flex justify-between mb-5">
@@ -90,32 +85,6 @@ export default function ManagerEventTable({ newusers, userlist }) {
           <li>No hay participantes en este evento.</li>
         )}
       </ul>
-      <div>
-        <div className="p-4 flex items-center w-full content-center justify-center font-semibold">
-          <label className="mr-4">Monto del split: </label>
-          {rol === "admin" ? (
-            <input type="text" className="w-40 text-center" />
-          ) : (
-            <p>{userlist.split.toLocaleString("es-ES")}</p>
-          )}
-        </div>
-        {rol === "admin" && (
-          <div>
-            <button
-              onClick={handleEditToggle}
-              className="min-w-24 m-2 py-1 px-3 rounded right-2 bg-blue-500 hover:bg-blue-600 text-white"
-            >
-              Editar
-            </button>
-            <button
-              onClick={handleSaveAmounts}
-              className="min-w-24 m-2 py-1 px-3 rounded bg-green-500 hover:bg-green-600 text-white"
-            >
-              Guardar
-            </button>
-          </div>
-        )}
-      </div>
       {message && (
         <p className="w-full text-center text-red-700 mt-10">{message}</p>
       )}

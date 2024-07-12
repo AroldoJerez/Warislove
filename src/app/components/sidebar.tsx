@@ -79,6 +79,12 @@ const Sidebar = () => {
               Crear Evento
             </button>
             <button
+              className="bg-purple-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-purple-700 text-white mb-1"
+              onClick={() => handleAdmin("/administracion/editarEvento")}
+            >
+              Editar Evento
+            </button>
+            <button
               className="bg-blue-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-blue-700 text-white mb-1"
               onClick={() => handleAdmin("/dashboardAlbion")}
             >
