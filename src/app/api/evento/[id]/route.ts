@@ -18,7 +18,6 @@ export async function GET(
   }
 
   try {
-    // Verificar si hay algún evento con el ID proporcionado
     const event = await prisma.event.findUnique({
       where: { id: Number(idUrl) },
     });
@@ -66,13 +65,54 @@ export async function PUT(
       where: { id: Number(id) },
       data: {
         nameEvent: updatedData.nameEvent,
-        split: parseFloat(updatedData.split), // Asegúrate de convertir el valor a float
-        numberOfParticipants: parseFloat(updatedData.numberOfParticipants), // Asegúrate de convertir el valor a float
+        split: parseFloat(updatedData.split),
+        numberOfParticipants: parseFloat(updatedData.numberOfParticipants),
         siteDeposited: updatedData.siteDeposited,
         completed: updatedData.completed,
-        actived: updatedData.actived, // asegúrate de que este campo existe y es válido en tu modelo
+        actived: updatedData.actived,
+      },
+      include: {
+        participantes: true, // Incluir los participantes en la respuesta
       },
     });
+
+    if (updatedEvent.completed) {
+      const splitDivideFor = updatedEvent.participantes.length;
+      const splitAmount = updatedEvent.split / splitDivideFor;
+
+      const logs = [];
+
+      await Promise.all(
+        updatedEvent.participantes.map(async (participant) => {
+          const originalMoney = await prisma.money.findUnique({
+            where: { userId: participant.id },
+          });
+
+          if (originalMoney) {
+            logs.push({
+              action: "update" + id,
+              userId: participant.id,
+              oldValue: originalMoney.amount.toString(),
+              newValue: (originalMoney.amount + splitAmount).toString(),
+              timestamp: new Date(),
+            });
+
+            await prisma.money.update({
+              where: { userId: participant.id },
+              data: {
+                amount: {
+                  increment: splitAmount,
+                },
+              },
+            });
+          }
+        })
+      );
+
+      await prisma.log.createMany({
+        data: logs,
+      });
+    }
 
     return NextResponse.json(
       { message: "Evento actualizado exitosamente", event: updatedEvent },

@@ -55,6 +55,31 @@ export default function EditEventPage() {
     }
   };
 
+  const reversedHandle = async () => {
+    try {
+      const response = await fetch(`/api/evento/revert/${id}`, {
+        method: "PUT",
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al revertir el evento");
+      }
+
+      const result = await response.json();
+      alert(result.message);
+      router.push("/administracion/editarEvento");
+      // Actualizar el estado del evento después de la reversión
+      setEventData((prevData) => ({
+        ...prevData,
+        completed: false,
+        actived: true,
+      }));
+    } catch (error) {
+      console.error("Error al revertir el evento:", error);
+      alert("Error al revertir el evento");
+    }
+  };
+
   if (!eventData) {
     return (
       <main className="flex justify-center items-center h-screen">
@@ -121,6 +146,13 @@ export default function EditEventPage() {
               Guardar Cambios
             </button>
           </form>
+          <button
+            type="button"
+            onClick={reversedHandle}
+            className="w-full mt-2 p-2 bg-red-600 text-white rounded hover:bg-red-400"
+          >
+            Revertir
+          </button>
         </div>
       </main>
     </div>
