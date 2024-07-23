@@ -86,7 +86,7 @@ const Sidebar = () => {
             </button>
             <button
               className="bg-blue-500 text-center font-semibold w-full h-10 cursor-pointer hover:bg-blue-700 text-white mb-1"
-              onClick={() => handleAdmin("/dashboardAlbion")}
+              onClick={() => handleAdmin("/administracion/dashboardAlbion")}
             >
               Listado Gremial
             </button>
